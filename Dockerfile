@@ -6,7 +6,7 @@ ARG VERSION
 
 LABEL build_version="${VERSION} Build-date:- ${BUILD_DATE}"  maintainer="xuvin" 
 
-ENV CALIBRE_INSTALLER=https://download.calibre-ebook.com/linux-installer.sh INSTALL_DIR=/opt AUTH_STATUS=enable-auth CONF_DIR=config LIB_DIR=lib
+ENV CALIBRE_INSTALLER=https://download.calibre-ebook.com/linux-installer.sh INSTALL_DIR=/opt AUTH_STATUS=enable-auth CONF_DIR=config LIB_DIR=lib USERSQL=users.sqlite
 ENV ADD_LIB=${INSTALL_DIR}/${LIB_DIR}/Books
 
 WORKDIR "${INSTALL_DIR}"
@@ -41,6 +41,6 @@ VOLUME [ "/${INSTALL_DIR}/${CONF_DIR}", "/${INSTALL_DIR}/${LIB_DIR}" ]
 
 EXPOSE 8080
 
-ENTRYPOINT calibre-server --log ${INSTALL_DIR}/${CONF_DIR}/log.file --${AUTH_STATUS} --userdb ${INSTALL_DIR}/${CONF_DIR}/users.sqlite ${ADD_LIB}
+ENTRYPOINT calibre-server --log ${INSTALL_DIR}/${CONF_DIR}/log.file --${AUTH_STATUS} --userdb ${INSTALL_DIR}/${CONF_DIR}/${USERSQL} ${ADD_LIB}
 
 #CMD ["/bin/bash"]

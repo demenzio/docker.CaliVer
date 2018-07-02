@@ -14,12 +14,12 @@ WORKDIR "/${INSTALL_DIR}"
 RUN echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
     echo "~~~~   Update and Upgrade  ~~~~" && \
 	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
-	apt-get update && apt-get upgrade -y && \
-	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
+	apt-get update && apt-get upgrade -y
+RUN	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
     echo "~~~~ Install Needed Packages ~~~~" && \
 	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
-    apt-get install -y wget xdg-utils xz-utils python gcc &&\
-	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
+    apt-get install -y wget xdg-utils xz-utils python gcc
+RUN	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
     echo "~~~~     Install Calibre   ~~~~" && \
 	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
 	echo "Creating /${INSTALL_DIR}" && \

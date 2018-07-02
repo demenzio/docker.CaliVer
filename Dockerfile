@@ -7,7 +7,7 @@ ARG VERSION
 LABEL build_version="${VERSION} Build-date:- ${BUILD_DATE}"  maintainer="xuvin" 
 
 ENV CALIBRE_INSTALLER=https://download.calibre-ebook.com/linux-installer.sh INSTALL_DIR=/opt AUTH_STATUS=enable-auth CONF_DIR=config LIB_DIR=lib
-ENV ADD_LIB=/${INSTALL_DIR}/LIB_DIR/Books
+ENV ADD_LIB=${INSTALL_DIR}/${LIB_DIR}/Books
 
 WORKDIR "/${INSTALL_DIR}"
 

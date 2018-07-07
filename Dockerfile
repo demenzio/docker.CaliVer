@@ -22,7 +22,7 @@ RUN echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
 	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
     echo "~~~~     Install Calibre   ~~~~" && \
 	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
-	echo "Creating /${INSTALL_DIR}" && \
+	echo "Creating ${INSTALL_DIR}" && \
     wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin install_dir=${INSTALL_DIR} && \
     echo "~ ~ ~>Cleaning UP" && \ 
 	rm -rf /tmp/* && \

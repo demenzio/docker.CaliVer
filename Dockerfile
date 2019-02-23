@@ -20,22 +20,35 @@ RUN echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
 	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
     apt-get install -y wget xdg-utils xz-utils python gcc && \
 	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
+    echo "~~~~ Creating Runtime User ~~~~" && \
+	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
+	adduser --gecos "" --disabled-password calib && \
+	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
+    echo "~~ Creating Folder Structure ~~" && \
+	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
+	echo "~ ~ ~>Creating ${INSTALL_DIR}" && \
+	mkdir -p ${INSTALL_DIR}/calibre && \
+	chown calib:calib ${INSTALL_DIR}/calibre && \
+	echo "~ ~ ~>Creating ${INSTALL_DIR}/${CONF_DIR}" && \
+	mkdir -p ${INSTALL_DIR}/${CONF_DIR} && \
+	chown calib:calib ${INSTALL_DIR}/${CONF_DIR} && \
+	echo "~ ~ ~>Creating ${INSTALL_DIR}/${LIB_DIR}" && \
+	mkdir -p ${INSTALL_DIR}/${LIB_DIR}/Books && \
+	chown calib:calib -R ${INSTALL_DIR}/${LIB_DIR}
+
+COPY users.sqlite ${INSTALL_DIR}/${CONF_DIR}
+#ADD demo-libry/* ${INSTALL_DIR}/${LIB_DIR}/Books/
+
+RUN	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
     echo "~~~~     Install Calibre   ~~~~" && \
 	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
 	echo "Creating ${INSTALL_DIR}" && \
     wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin install_dir=${INSTALL_DIR} && \
     echo "~ ~ ~>Cleaning UP" && \ 
 	rm -rf /tmp/* && \
-	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
-    echo "~~ Creating Folder Structure ~~" && \
-	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
-	echo "~ ~ ~>Creating ${INSTALL_DIR}/${CONF_DIR}" && \
-	mkdir -p ${INSTALL_DIR}/${CONF_DIR} && \
-	echo "~ ~ ~>Creating ${INSTALL_DIR}/${LIB_DIR}" && \
-	mkdir -p ${INSTALL_DIR}/${LIB_DIR}/Books
+	chown calib:calib -R ${INSTALL_DIR}/*
 
-COPY users.sqlite ${INSTALL_DIR}/${CONF_DIR}
-#ADD demo-libry/* ${INSTALL_DIR}/${LIB_DIR}/Books/
+USER calib
 
 VOLUME [ "/${INSTALL_DIR}/${CONF_DIR}", "/${INSTALL_DIR}/${LIB_DIR}" ]
 

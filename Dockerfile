@@ -28,13 +28,11 @@ RUN echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
 	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
 	echo "~ ~ ~>Creating ${INSTALL_DIR}" && \
 	mkdir -p ${INSTALL_DIR}/calibre && \
-	chown calib:calib ${INSTALL_DIR}/calibre && \
 	echo "~ ~ ~>Creating ${INSTALL_DIR}/${CONF_DIR}" && \
 	mkdir -p ${INSTALL_DIR}/${CONF_DIR} && \
-	chown calib:calib ${INSTALL_DIR}/${CONF_DIR} && \
 	echo "~ ~ ~>Creating ${INSTALL_DIR}/${LIB_DIR}" && \
-	mkdir -p ${INSTALL_DIR}/${LIB_DIR}/Books && \
-	chown calib:calib -R ${INSTALL_DIR}/${LIB_DIR}
+	mkdir -p ${INSTALL_DIR}/${LIB_DIR}/Books
+
 
 COPY users.sqlite ${INSTALL_DIR}/${CONF_DIR}
 #ADD demo-libry/* ${INSTALL_DIR}/${LIB_DIR}/Books/

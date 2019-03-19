@@ -3,10 +3,11 @@ FROM ubuntu
 
 ARG BUILD_DATE
 ARG VERSION
+ARG CALIBRE_INSTALLER=https://download.calibre-ebook.com/linux-installer.sh
 
 LABEL build_version="${VERSION} Build-date:- ${BUILD_DATE}"  maintainer="xuvin" 
 
-ENV CALIBRE_INSTALLER=https://download.calibre-ebook.com/linux-installer.sh INSTALL_DIR=/opt AUTH_STATUS=enable-auth CONF_DIR=config LIB_DIR=lib USERSQL=users.sqlite
+ENV INSTALL_DIR=/opt AUTH_STATUS=enable-auth CONF_DIR=config LIB_DIR=lib USERSQL=users.sqlite
 ENV ADD_LIB=${INSTALL_DIR}/${LIB_DIR}/Books
 
 WORKDIR "${INSTALL_DIR}"
@@ -45,6 +46,7 @@ RUN	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
     echo "~ ~ ~>Cleaning UP" && \ 
 	rm -rf /tmp/* && \
 	chown calib:calib -R ${INSTALL_DIR}/*
+	#chown nobody:users -R ${INSTALL_DIR}/${LIB_DIR}
 
 USER calib
 

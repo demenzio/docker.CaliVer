@@ -1,4 +1,4 @@
 # CaliVer Docker Container
 Dockerfile for building CaliVer image.
 
-#### Current Version 3.39.1
+#### Current Version 4.40.1

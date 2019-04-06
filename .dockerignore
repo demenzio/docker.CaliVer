@@ -1,0 +1,6 @@
+*.md
+build_release.bat
+.git
+.gitignore
+LICENSE
+.gitattributes

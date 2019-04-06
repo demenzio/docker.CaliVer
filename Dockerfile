@@ -42,7 +42,7 @@ COPY users.sqlite ${CONF_DIR}/files
 
 ADD rootfs /
 
-VOLUME [ "/${CONF_DIR}" ]
+VOLUME [ "/${CONF_DIR}/files", "/${CONF_DIR}/lib" ]
 
 EXPOSE 8080
 

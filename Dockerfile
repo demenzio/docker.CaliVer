@@ -8,6 +8,7 @@ LABEL build_version="${VERSION} Build-date:- ${BUILD_DATE}"  maintainer="xuvin"
 
 ENV INSTALL_DIR=/app AUTH_STATUS=enable-auth CONF_DIR=/config LIB_DIR=lib USERSQL=users.sqlite
 ENV ADD_LIB=${CONF_DIR}/${LIB_DIR}/Books
+ENV CALIBRE_TEMP_DIR=${CONF_DIR}/calibre/tmpdir CALIBRE_CACHE_DIRECTORY=${CONF_DIR}/calibre/cachedir
 
 WORKDIR /config
 
@@ -25,7 +26,11 @@ RUN echo "**** upgrade system ****" && \
 		echo "~ ~ ~>Creating ${CONF_DIR}/${LIB_DIR}" && \
 			mkdir -p ${CONF_DIR}/${LIB_DIR} && \
 		echo "~ ~ ~>Creating ${CONF_DIR}/files" && \
-			mkdir -p ${CONF_DIR}/files
+			mkdir -p ${CONF_DIR}/files && \
+		echo "~ ~ ~>Creating ${CONF_DIR}/calibre/tmpdir" && \
+			mkdir -p ${CONF_DIR}/calibre/tmpdir && \
+		echo "~ ~ ~>Creating ${CONF_DIR}/calibre/cachedir" && \
+			mkdir -p ${CONF_DIR}/calibre/cachedir
 
 RUN	echo "**** creating directory structure ****" && \
 	echo "Installing to ${INSTALL_DIR}" && \

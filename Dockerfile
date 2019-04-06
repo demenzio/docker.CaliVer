@@ -23,7 +23,9 @@ RUN echo "**** upgrade system ****" && \
 		echo "~ ~ ~>Creating ${INSTALL_DIR}/calibre" && \
 			mkdir -p ${INSTALL_DIR}/calibre && \
 		echo "~ ~ ~>Creating ${CONF_DIR}/${LIB_DIR}" && \
-			mkdir -p ${CONF_DIR}/${LIB_DIR}/Books
+			mkdir -p ${CONF_DIR}/${LIB_DIR} && \
+		echo "~ ~ ~>Creating ${CONF_DIR}/files" && \
+			mkdir -p ${CONF_DIR}/files
 
 RUN	echo "**** creating directory structure ****" && \
 	echo "Installing to ${INSTALL_DIR}" && \
@@ -31,8 +33,9 @@ RUN	echo "**** creating directory structure ****" && \
     echo "~ ~ ~>Cleaning UP" && \ 
 		rm -rf /tmp/*
 	
-COPY users.sqlite ${CONF_DIR}
+COPY users.sqlite ${CONF_DIR}/files
 #ADD demo-libry/* ${INSTALL_DIR}/${LIB_DIR}/Books/
+
 ADD rootfs /
 
 VOLUME [ "/${CONF_DIR}" ]

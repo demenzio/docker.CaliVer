@@ -1,5 +1,4 @@
-FROM ubuntu
-#MAINTAINER xuvin
+FROM xuvin/s6overlay:ubuntu-v1.22.1.0
 
 ARG BUILD_DATE
 ARG VERSION
@@ -7,53 +6,39 @@ ARG CALIBRE_INSTALLER=https://download.calibre-ebook.com/linux-installer.sh
 
 LABEL build_version="${VERSION} Build-date:- ${BUILD_DATE}"  maintainer="xuvin" 
 
-ENV INSTALL_DIR=/opt AUTH_STATUS=enable-auth CONF_DIR=config LIB_DIR=lib USERSQL=users.sqlite
-ENV ADD_LIB=${INSTALL_DIR}/${LIB_DIR}/Books
+ENV INSTALL_DIR=/app AUTH_STATUS=enable-auth CONF_DIR=/config LIB_DIR=lib USERSQL=users.sqlite
+ENV ADD_LIB=${CONF_DIR}/${LIB_DIR}/Books
 
-WORKDIR "${INSTALL_DIR}"
+WORKDIR /config
 
-RUN echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
-    echo "~~~~   Update and Upgrade  ~~~~" && \
-	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
-	apt-get update && apt-get upgrade -y && \
-	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
-    echo "~~~~ Install Needed Packages ~~~~" && \
-	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
-    apt-get install -y wget xdg-utils xz-utils python gcc && \
-	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
-    echo "~~~~ Creating Runtime User ~~~~" && \
-	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
-	adduser --gecos "" --disabled-password calib && \
-	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
-    echo "~~ Creating Folder Structure ~~" && \
-	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
-	echo "~ ~ ~>Creating ${INSTALL_DIR}" && \
-	mkdir -p ${INSTALL_DIR}/calibre && \
-	echo "~ ~ ~>Creating ${INSTALL_DIR}/${CONF_DIR}" && \
-	mkdir -p ${INSTALL_DIR}/${CONF_DIR} && \
-	echo "~ ~ ~>Creating ${INSTALL_DIR}/${LIB_DIR}" && \
-	mkdir -p ${INSTALL_DIR}/${LIB_DIR}/Books
+RUN echo "**** upgrade system ****" && \
+		apt-get update && apt-get upgrade -y && \
+	echo "**** install packages ****" && \
+    	apt-get install -y libreadline7 wget xdg-utils xz-utils python gcc && \
+	echo "**** clean up ****" && \
+        rm -rf /var/lib/apt/lists/* && \
+        apt-get autoremove -y && \
+        apt-get clean && \
+	echo "**** creating directory structure ****" && \
+		echo "~ ~ ~>Creating ${INSTALL_DIR}/calibre" && \
+			mkdir -p ${INSTALL_DIR}/calibre && \
+		echo "~ ~ ~>Creating ${CONF_DIR}/${LIB_DIR}" && \
+			mkdir -p ${CONF_DIR}/${LIB_DIR}/Books
 
-
-COPY users.sqlite ${INSTALL_DIR}/${CONF_DIR}
-#ADD demo-libry/* ${INSTALL_DIR}/${LIB_DIR}/Books/
-
-RUN	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
-    echo "~~~~     Install Calibre   ~~~~" && \
-	echo "~~~~ ~~~~~~~~~~~~~~~~~~~~~ ~~~~" && \
-	echo "Creating ${INSTALL_DIR}" && \
-    wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin install_dir=${INSTALL_DIR} && \
+RUN	echo "**** creating directory structure ****" && \
+	echo "Installing to ${INSTALL_DIR}" && \
+    	wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin install_dir=${INSTALL_DIR} && \
     echo "~ ~ ~>Cleaning UP" && \ 
-	rm -rf /tmp/* && \
-	chown calib:calib -R ${INSTALL_DIR}/*
-	#chown nobody:users -R ${INSTALL_DIR}/${LIB_DIR}
+		rm -rf /tmp/*
+	
+COPY users.sqlite ${CONF_DIR}
+#ADD demo-libry/* ${INSTALL_DIR}/${LIB_DIR}/Books/
+ADD rootfs /
 
-USER calib
-
-VOLUME [ "/${INSTALL_DIR}/${CONF_DIR}", "/${INSTALL_DIR}/${LIB_DIR}" ]
+VOLUME [ "/${CONF_DIR}" ]
 
 EXPOSE 8080
 
-ENTRYPOINT calibre-server --log ${INSTALL_DIR}/${CONF_DIR}/log.file --${AUTH_STATUS} --userdb ${INSTALL_DIR}/${CONF_DIR}/${USERSQL} ${ADD_LIB}
+ENTRYPOINT ["/init"]
 
 #CMD ["/bin/bash"]

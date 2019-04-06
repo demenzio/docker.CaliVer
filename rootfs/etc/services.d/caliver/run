@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv bash
+
+exec /app/calibre/calibre-server --log ${CONF_DIR}/log.file --${AUTH_STATUS} --userdb ${CONF_DIR}/${USERSQL} ${ADD_LIB}

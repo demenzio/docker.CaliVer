@@ -38,7 +38,7 @@ RUN	echo "Installing to ${INSTALL_DIR}" && \
     echo "~ ~ ~>Cleaning UP" && \ 
 		rm -rf /tmp/*
 	
-COPY users.sqlite ${CONF_DIR}/files
+ADD users.sqlite ${CONF_DIR}
 #ADD demo-libry/* ${INSTALL_DIR}/${LIB_DIR}/Books/
 
 ADD rootfs /

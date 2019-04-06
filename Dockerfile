@@ -46,6 +46,9 @@ VOLUME [ "/${CONF_DIR}/files", "/${CONF_DIR}/lib" ]
 
 EXPOSE 8080
 
+HEALTHCHECK --interval=5m --timeout=3s \
+  CMD curl -f http://localhost:8080 || exit 1
+
 ENTRYPOINT ["/init"]
 
 #CMD ["/bin/bash"]

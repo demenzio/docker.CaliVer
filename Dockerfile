@@ -8,7 +8,8 @@ LABEL build_version="${VERSION} Build-date:- ${BUILD_DATE}"  maintainer="xuvin"
 
 ENV INSTALL_DIR=/app AUTH_STATUS=enable-auth CONF_DIR=/config LIB_DIR=lib USERSQL=users.sqlite
 ENV ADD_LIB=${CONF_DIR}/${LIB_DIR}/Books
-#ENV CALIBRE_TEMP_DIR=${CONF_DIR}/calibre/tmpdir CALIBRE_CACHE_DIRECTORY=${CONF_DIR}/calibre/cachedir
+ENV CALIBRE_TEMP_DIR=${CONF_DIR}/calibre/tmpdir CALIBRE_CACHE_DIRECTORY=${CONF_DIR}/calibre/cachedir
+#ENV HOME=/config
 
 WORKDIR /config/files
 

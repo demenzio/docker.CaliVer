@@ -10,7 +10,7 @@ ENV INSTALL_DIR=/app AUTH_STATUS=enable-auth CONF_DIR=/config LIB_DIR=lib USERSQ
 ENV ADD_LIB=${CONF_DIR}/${LIB_DIR}/Books
 ENV CALIBRE_TEMP_DIR=${CONF_DIR}/calibre/tmpdir CALIBRE_CACHE_DIRECTORY=${CONF_DIR}/calibre/cachedir
 
-WORKDIR /config
+WORKDIR /config/files
 
 RUN echo "**** upgrade system ****" && \
 		apt-get update && apt-get upgrade -y && \
@@ -27,10 +27,10 @@ RUN echo "**** upgrade system ****" && \
 			mkdir -p ${CONF_DIR}/${LIB_DIR} && \
 		echo "~ ~ ~>Creating ${CONF_DIR}/files" && \
 			mkdir -p ${CONF_DIR}/files && \
-		echo "~ ~ ~>Creating ${CONF_DIR}/calibre/tmpdir" && \
-			mkdir -p ${CONF_DIR}/calibre/tmpdir && \
-		echo "~ ~ ~>Creating ${CONF_DIR}/calibre/cachedir" && \
-			mkdir -p ${CONF_DIR}/calibre/cachedir
+		echo "~ ~ ~>Creating ${CALIBRE_TEMP_DIR}" && \
+			mkdir -p ${CALIBRE_TEMP_DIR} && \
+		echo "~ ~ ~>Creating ${CALIBRE_CACHE_DIRECTORY}" && \
+			mkdir -p ${CALIBRE_CACHE_DIRECTORY}
 
 RUN	echo "Installing to ${INSTALL_DIR}" && \
     	wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin install_dir=${INSTALL_DIR} && \

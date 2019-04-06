@@ -32,8 +32,7 @@ RUN echo "**** upgrade system ****" && \
 		echo "~ ~ ~>Creating ${CONF_DIR}/calibre/cachedir" && \
 			mkdir -p ${CONF_DIR}/calibre/cachedir
 
-RUN	echo "**** creating directory structure ****" && \
-	echo "Installing to ${INSTALL_DIR}" && \
+RUN	echo "Installing to ${INSTALL_DIR}" && \
     	wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin install_dir=${INSTALL_DIR} && \
     echo "~ ~ ~>Cleaning UP" && \ 
 		rm -rf /tmp/*

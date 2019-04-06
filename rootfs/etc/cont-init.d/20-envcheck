@@ -1,0 +1,31 @@
+#!/usr/bin/with-contenv bash
+
+echo
+echo "Searching for required files files and folders:"
+echo
+echo "${CONF_DIR}/files/${USERSQL}"
+if [ ! -e "${CONF_DIR}/files/${USERSQL}" ]; then
+    echo "${CONF_DIR}/files/${USERSQL} not found. Generating file..."
+    mv ${CONF_DIR}/users.sqlite ${CONF_DIR}/files/${USERSQL}
+else 
+    echo "${CONF_DIR}/files/${USERSQL} found."
+fi
+echo
+echo "${CALIBRE_TEMP_DIR}"
+if [ ! -d "${CALIBRE_TEMP_DIR}" ]; then
+  echo "${CALIBRE_TEMP_DIR} not found. Generating folder..."
+    mkdir -p ${CALIBRE_TEMP_DIR}
+else
+    echo "${CALIBRE_TEMP_DIR} found."
+fi
+echo
+echo ${CALIBRE_CACHE_DIRECTORY}
+if [ ! -d "${CALIBRE_CACHE_DIRECTORY}" ]; then
+  echo "${CALIBRE_CACHE_DIRECTORY} not found. Generating folder..."
+    mkdir -p ${CALIBRE_CACHE_DIRECTORY}
+else
+    echo "${CALIBRE_CACHE_DIRECTORY} found."
+fi
+echo
+echo "Done."
+echo

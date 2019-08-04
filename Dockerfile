@@ -1,4 +1,4 @@
-FROM xuvin/s6overlay:ubuntu-v1.22.1.0
+FROM xuvin/s6overlay:ubuntu-latest
 
 ARG BUILD_DATE
 ARG VERSION

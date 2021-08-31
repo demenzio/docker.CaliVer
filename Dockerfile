@@ -16,7 +16,7 @@ WORKDIR /config/files
 RUN echo "**** upgrade system ****" && \
 		apt-get update && apt-get upgrade -y && \
 	echo "**** install packages ****" && \
-    	apt-get install -y libreadline7 wget xdg-utils xz-utils python gcc && \
+    	apt-get install -y libreadline8 wget xdg-utils xz-utils python gcc && \
 	echo "**** clean up ****" && \
         rm -rf /var/lib/apt/lists/* && \
         apt-get autoremove -y && \
